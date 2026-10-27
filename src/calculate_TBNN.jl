@@ -99,7 +99,11 @@ function calculate_Troyon_beta_limits_for_a_given_time_slice(TD::Troyon_Data, eq
         _print_results_to_stdout(TD; eq_betaN=equilibrium_βₙ, kwargs...)
 
         if verbose
-            plot_sample_points(TD, eqt; file_type="png")
+            if Base.get_extension(@__MODULE__, :TroyonBetaNNPlotsExt) !== nothing
+                plot_sample_points(TD, eqt; file_type="png")
+            else
+                @warn "TroyonBetaNN: verbose sample-point plots need `using Plots`" maxlog = 1
+            end
         end
     end
 

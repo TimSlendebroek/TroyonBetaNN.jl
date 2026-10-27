@@ -4,7 +4,6 @@ module TroyonBetaNN
 using IMAS
 using JSON
 using Printf
-using Plots
 using PrettyTables
 using FastInterpolations
 
@@ -45,6 +44,13 @@ end
 
 include("calculate_TBNN.jl")
 include("print_TBNN.jl")
-include("plot_TBNN.jl")
+
+"""
+    plot_sample_points(TD::Troyon_Data, eqt::IMAS.equilibrium__time_slice; fileName_prefix="Troyon_Sample_Points", file_type="png", title_prefix="")
+
+Plots the q/pressure/boundary sample points fed to the Troyon NN and saves the figure.
+Needs `using Plots` (implemented in ext/TroyonBetaNNPlotsExt.jl).
+"""
+function plot_sample_points end
 
 end # module TroyonBetaNN
