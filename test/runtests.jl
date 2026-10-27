@@ -5,20 +5,12 @@ using IMAS
 
 include("references.jl")
 
+file_path = joinpath(pkgdir(TBNN), "test", "data", "dd_D3D.json")
+dd = IMAS.json2imas(file_path)
+
 @testset "TroyonBetaNN.jl" begin
-
-    file_path = joinpath(pkgdir(TBNN), "test", "data", "dd_D3D.json")
-    dd = IMAS.json2imas(file_path);
-
     # run & show simple terminal output
-    TD_vec = TBNN.calculate_Troyon_beta_limits_for_IMAS_dd(dd);
-
-    # run & show verbose terminal output.
-    # verbose=true savefig's sample-point plots to the CWD, so run with the CWD
-    # set to a temp dir to keep the repo clean (the plots aren't asserted).
-    TD_vec = cd(mktempdir()) do
-        TBNN.calculate_Troyon_beta_limits_for_IMAS_dd(dd; verbose=true)
-    end
+    TD_vec = TBNN.calculate_Troyon_beta_limits_for_IMAS_dd(dd)
 
     TD = TD_vec[2]
     @testset "Check MLP's βₙ_limits with references" begin
@@ -33,5 +25,22 @@ include("references.jl")
         @test isapprox(TD.sampPoints.R,        R_REF;        rtol=1e-3)
         @test isapprox(TD.sampPoints.Z,        Z_REF;        rtol=1e-3)
     end
+end
 
+# Plots is a weak dependency (ext/TroyonBetaNNPlotsExt.jl): verbose=true only plots once Plots is loaded
+@testset "verbose without Plots" begin
+    @test Base.get_extension(TBNN, :TroyonBetaNNPlotsExt) === nothing
+    dir = mktempdir()
+    @test_logs (:warn, r"using Plots") match_mode = :any cd(() -> TBNN.calculate_Troyon_beta_limits_for_IMAS_dd(dd; verbose=true), dir)
+    @test isempty(readdir(dir))
+end
+
+ENV["GKSwstype"] = "nul" # headless GR
+using Plots
+
+@testset "verbose with Plots saves sample-point plots" begin
+    @test Base.get_extension(TBNN, :TroyonBetaNNPlotsExt) !== nothing
+    dir = mktempdir()
+    cd(() -> TBNN.calculate_Troyon_beta_limits_for_IMAS_dd(dd; verbose=true), dir)
+    @test any(startswith("Troyon_Sample_Points"), readdir(dir))
 end
