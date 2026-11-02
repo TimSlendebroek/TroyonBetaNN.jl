@@ -1,3 +1,10 @@
+> [!NOTE]
+> **About this fork.** This TroyonBetaNN fork is part of [FUSE_Design](https://github.com/TimSlendebroek/FUSE_Design.jl), a public, stable version of the FUSE
+> stack focused on **fusion power-plant design** rather than the time-dependent, digital-twin direction of upstream.
+> `master` is the design line, release **1.1.0+design.1** (upstream v1.1.0, plots in a Plots extension;
+> [CHANGELOG.md](CHANGELOG.md)); upstream's own master is kept on the `upstream-master` branch.
+> To install the whole stack, see [Installing the design stack](https://github.com/TimSlendebroek/FUSE_Design.jl#installing-the-design-stack).
+
 [![CI](https://github.com/ProjectTorreyPines/TroyonBetaNN.jl/actions/workflows/CI.yml/badge.svg)](https://github.com/ProjectTorreyPines/TroyonBetaNN.jl/actions/workflows/CI.yml)
 
 <!-- ABOUT THE PROJECT -->
