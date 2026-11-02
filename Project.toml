@@ -1,6 +1,6 @@
 name = "TroyonBetaNN"
 uuid = "c0158764-c6e1-428b-a545-31826f389bc8"
-version = "1.1.0"
+version = "1.1.0+design.1"
 authors = ["Min-Gu Yoo <mgyoo86@gmail.com>"]
 
 [deps]
